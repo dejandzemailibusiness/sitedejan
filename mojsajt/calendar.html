@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients — My Portfolio</title>
+    <style>
+        /* Base Variables for Light Mode */
+        :root {
+            --bg-color: #f4f4f5;
+            --sidebar-bg: #e4e4e7;
+            --text-main: #18181b;
+            --text-muted: #52525b;
+            --border-color: #d4d4d8;
+            --table-bg: #ffffff;
+            --accent: #3b82f6;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --bg-color: #18181b;
+            --sidebar-bg: #09090b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border-color: #3f3f46;
+            --table-bg: #27272a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            padding: 2rem 1rem;
+            border-right: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .theme-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--border-color);
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        .page-header p.subtitle {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p.description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Clients Grid */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .client-card {
+            background-color: var(--table-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .client-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--text-muted);
+        }
+
+        .client-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .client-role {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .client-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Service Tags */
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            background-color: var(--sidebar-bg);
+            border-radius: 8px;
+            text-align: center;
+            border: 1px dashed var(--border-color);
+        }
+
+        .cta-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--text-main);
+            color: var(--bg-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .cta-button:hover {
+            opacity: 0.9;
+            background-color: var(--text-main);
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>Your Name</h2>
+        <ul class="nav-links">
+            <li><a href="index.html">⌂ Home</a></li>
+            <li><a href="about.html">◉ About</a></li>
+            <li><a href="portfolio.html">◈ Portfolio</a></li>
+            <li><a href="dev.html">◇ Dev</a></li>
+            <li><a href="studies.html">✦ Studies</a></li>
+        </ul>
+        
+        <ul class="nav-links" style="margin-left: 1.5rem; margin-top: -0.5rem; font-size: 0.9em;">
+            <li><a href="studies.html#grades">· Grades</a></li>
+            <li><a href="literature.html">· Notes</a></li>
+            <li><a href="calendar.html">· Calendar</a></li>
+        </ul>
+
+        <ul class="nav-links" style="margin-top: 1rem;">
+            <li><a href="clients.html" class="active">◎ Clients</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        
+        <div class="theme-container">
+            <button id="theme-toggle">🌙 Dark Mode</button>
+        </div>
+
+        <header class="page-header">
+            <p class="subtitle">Freelance & Commercial Work</p>
+            <h1>Clients</h1>
+            <p class="description">Brands, companies, and people I've collaborated with on photography, video production, and web development projects.</p>
+        </header>
+
+        <div class="clients-grid">
+            
+            <div class="client-card">
+                <div class="client-name">Local Coffee Roasters</div>
+                <span class="client-role">Commercial Shoot</span>
+                <p class="client-desc">Product photography and lifestyle shots for their new seasonal blend campaign and social media.</p>
+                <div class="service-tags">
+                    <span class="tag">Photography</span>
+                    <span class="tag">Editing</span>
+                </div>
+            </div>
+
+            <div class="client-card">
+                <div class="client-name">Tech Startup Inc.</div>
+                <span class="client-role">Web Development</span>
+                <p class="client-desc">Built a custom, responsive landing page to launch their new app, focusing on fast load times and clean UI.</p>
+                <div class="service-tags">
+                    <span class="tag">Frontend</span>
+                    <span class="tag">HTML/CSS/JS</span>
+                </div>
+            </div>
+
+            <div class="client-card">
+                <div class="client-name">City Music Festival</div>
+                <span class="client-role">Event Coverage</span>
+                <p class="client-desc">Three-day event coverage including daily recap videos, colour grading, and high-res photo delivery.</p>
+                <div class="service-tags">
+                    <span class="tag">Videography</span>
+                    <span class="tag">Colour Grading</span>
+                </div>
+            </div>
+
+            <div class="client-card">
+                <div class="client-name">Independent Artist</div>
+                <span class="client-role">Music Video</span>
+                <p class="client-desc">Cinematography and post-production colour grading for a debut single release.</p>
+                <div class="service-tags">
+                    <span class="tag">Video</span>
+                    <span class="tag">DaVinci Resolve</span>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="cta-section">
+            <h3>Let's build something together</h3>
+            <p>Available for 3D and 2D drawings,Office design projects, and photo editing.</p>
+            <a href="mailto:dejan@modusrem.com" class="cta-button">Get in touch</a>
+        </section>
+
+    </main>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.getAttribute('data-theme') === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                themeToggleBtn.textContent = '🌙 Dark Mode';
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggleBtn.textContent = '☀️ Light Mode';
+            }
+        });
+    </script>
+</body>
+</html>

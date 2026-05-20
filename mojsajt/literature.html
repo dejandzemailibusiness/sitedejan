@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes — My Studies</title>
+    <style>
+        /* Base Variables for Light Mode */
+        :root {
+            --bg-color: #f4f4f5;
+            --sidebar-bg: #e4e4e7;
+            --text-main: #18181b;
+            --text-muted: #52525b;
+            --border-color: #d4d4d8;
+            --table-bg: #ffffff;
+            --accent: #3b82f6;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --bg-color: #18181b;
+            --sidebar-bg: #09090b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border-color: #3f3f46;
+            --table-bg: #27272a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            padding: 2rem 1rem;
+            border-right: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .theme-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--border-color);
+        }
+
+        /* Notes Header */
+        .notes-header {
+            margin-bottom: 3rem;
+        }
+
+        .notes-header p.breadcrumb {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .notes-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .notes-header p.subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .disclaimer {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .wip-banner {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border: 1px dashed var(--border-color);
+            border-radius: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Year Sections */
+        .year-section {
+            margin-top: 4rem;
+        }
+
+        .year-section h3 {
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Notes List/Cards */
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .note-card {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--table-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .note-card:hover {
+            transform: translateX(5px);
+            border-color: var(--text-muted);
+        }
+
+        .note-number {
+            font-family: monospace;
+            color: var(--text-muted);
+            margin-right: 1.5rem;
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+
+        .note-status {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        [data-theme="dark"] .note-status {
+            color: #4ade80;
+        }
+
+        .note-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .note-details p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h2>Dejan Dzemaili</h2>
+        <ul class="nav-links">
+            <li><a href="index.html">⌂ Home</a></li>
+            <li><a href="about.html">◉ About</a></li>
+            <li><a href="portfolio.html">◈ Portfolio</a></li>
+            <li><a href="dev.html">◇ Dev</a></li>
+            <li><a href="studies.html" class="active">✦ Studies</a></li>
+        </ul>
+        
+        <ul class="nav-links" style="margin-left: 1.5rem; margin-top: -0.5rem; font-size: 0.9em;">
+            <li><a href="studies.html#grades">· Grades</a></li>
+            <li><a href="literature.html" class="active">· Notes</a></li>
+            <li><a href="calendar.html">· Calendar</a></li>
+        </ul>
+
+        <ul class="nav-links" style="margin-top: 1rem;">
+            <li><a href="clients.html">◎ Clients</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        
+        <div class="theme-container">
+            <button id="theme-toggle">🌙 Dark Mode</button>
+        </div>
+
+        <header class="notes-header">
+            <p class="breadcrumb">Studies / Notes</p>
+            <h1>Notes</h1>
+            <p class="subtitle">Faculty of Management · University of Belgrade</p>
+            
+            <p class="disclaimer">Personal notes and summaries written during lectures and studying. Free to use — but they're my notes, so no guarantees.</p>
+            
+            <div class="wip-banner">⧗ Work in progress</div>
+        </header>
+
+        <section class="year-section">
+            <h3>Year 1</h3>
+            
+            <div class="notes-list">
+                <a href="#" class="note-card">
+                    <div class="note-number">001 <span class="note-status">Done</span></div>
+                    <div class="note-details">
+                        <h4>Tehničko crtanje</h4>
+                        <p>Perlin noise project.</p>
+                    </div>
+                </a>
+
+                </div>
+        </section>
+
+    </main>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.getAttribute('data-theme') === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                themeToggleBtn.textContent = '🌙 Dark Mode';
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggleBtn.textContent = '☀️ Light Mode';
+            }
+        });
+    </script>
+</body>
+</html>
